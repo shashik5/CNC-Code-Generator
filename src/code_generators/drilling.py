@@ -25,6 +25,7 @@ class DrillingCNC:
         code = self._getStartCode() + self._moveToInitialPosition(
             self._getPositionById(self.path.pop(0)), False) + self._makeInitialDrill() + self._retractDrill()
 
+        # TODO: Handle incremental path scenario
         for p in self.path:
             pos = self._getPositionById(p)
             code += self._moveToPosition(pos.x, pos.y) + \

@@ -9,6 +9,8 @@ import threading
 def main():
     with open('data/data.json', 'r') as jsonfile:
         appConfig = json.load(jsonfile)
+    
+    # TODO: Move the below configurations into config.json file
     '''set the simulated annealing algorithm params'''
     temp = 1000
     stopping_temp = 0.00000001
@@ -31,6 +33,7 @@ def main():
     t1.start()
 
     cg = DrillingCNC(coords, solution_history[-1], DrillConfig(**appConfig['drillConfig']))
+    # TODO: Create an UI to display the CNC code and provide the option to print
     print(cg.generateCode())
 
 
