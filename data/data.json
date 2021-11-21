@@ -1,0 +1,15 @@
+{
+    "drillConfig": {
+        "isInInches": false,
+        "isPathIncremental": false,
+        "safePosition": {
+            "x": 0,
+            "y": -50,
+            "z": 15
+        },
+        "isFeedInMinutes": false,
+        "workpieceThickness": 10,
+        "feedRate": 0.05,
+        "spindleSpeed": 1000
+    }
+}
