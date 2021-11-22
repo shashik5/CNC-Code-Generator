@@ -1,40 +1,56 @@
+from app_config import AppConfig
+from data_config import DataConfig
 from data_generator import DataGenerator
-from code_generators.drilling import DrillingCNC, DrillConfig
+from code_generators.drilling import DrillingCNC
 from algorithms.simulated_annealing import SimulatedAnnealing
+import tkinter as tk
+from utils import copyToClipboard
 import visualizer
 import json
-import threading
 
 
 def main():
     with open('data/data.json', 'r') as jsonfile:
-        appConfig = json.load(jsonfile)
-    
-    # TODO: Move the below configurations into config.json file
-    '''set the simulated annealing algorithm params'''
-    temp = 1000
-    stopping_temp = 0.00000001
-    alpha = 0.9995
-    stopping_iter = 10000000
+        data = DataConfig(**json.load(jsonfile))
 
-    '''set the dimensions of the grid'''
-    size_width = 200
-    size_height = 200
+    with open('src/config.json', 'r') as jsonfile:
+        appConfig = AppConfig(**json.load(jsonfile))
 
-    '''set the number of nodes'''
-    population_size = 70
+    saConfig = appConfig.simulatedAnnealing
+    workpieceSize = appConfig.workpieceSize
 
-    nodes = DataGenerator(size_width, size_height, population_size).generate()
+    nodes = DataGenerator(workpieceSize.width, workpieceSize.height,
+                          appConfig.numberOfDrillPoints).generate()
 
-    sa = SimulatedAnnealing(nodes, temp, alpha, stopping_temp, stopping_iter)
-    [coords, solution_history] = sa.anneal()
+    sa = SimulatedAnnealing(nodes, saConfig)
+    [coords, solutionHistory] = sa.anneal()
 
-    t1 = threading.Thread(target=visualizer.animateTSP, args=(solution_history, coords))
-    t1.start()
+    def generateCode():
+        cg = DrillingCNC(coords, solutionHistory[-1], data.drillConfig)
+        code = cg.generateCode()
+        window = tk.Tk()
+        window.title('CNC Code')
+        frame = tk.Frame(master=window)
+        frame.pack()
 
-    cg = DrillingCNC(coords, solution_history[-1], DrillConfig(**appConfig['drillConfig']))
-    # TODO: Create an UI to display the CNC code and provide the option to print
-    print(cg.generateCode())
+        frame1 = tk.Frame(master=window, width=750, height=30)
+        frame1.pack()
+        text = tk.Text(master=frame)
+        text.insert(tk.INSERT, code)
+        text.configure(width=100, height=30, state='disabled')
+        button = tk.Button(master=frame1, text='Copy code to clipboard')
+
+        def onClick(arg):
+            copyToClipboard(code)
+            msg = tk.Message(master=frame1, text="Code Copied!", width=200)
+            msg.place(x=150, y=5)
+
+        button.bind('<Button-1>', onClick)
+        text.pack()
+        button.place(x=0, y=0)
+        window.mainloop()
+
+    visualizer.animateTSP(solutionHistory, coords, generateCode)
 
 
 if __name__ == "__main__":

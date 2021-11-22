@@ -1,5 +1,7 @@
 import random
 import numpy as np
+import tkinter as tk
+from jaraco import clipboard
 
 
 def vectorToDistMatrix(coords):
@@ -20,9 +22,14 @@ def nearestNeighbourSolution(dist_matrix):
     nodes_to_visit.remove(node)
 
     while nodes_to_visit:
-        nearest_node = min([(dist_matrix[node][j], j) for j in nodes_to_visit], key=lambda x: x[0])
+        nearest_node = min([(dist_matrix[node][j], j)
+                           for j in nodes_to_visit], key=lambda x: x[0])
         node = nearest_node[1]
         nodes_to_visit.remove(node)
         result.append(node)
 
     return result
+
+
+def copyToClipboard(text: str):
+    clipboard.copy(text)
