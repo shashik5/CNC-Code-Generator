@@ -41,7 +41,6 @@ def animateTSP(history, points, onGenerateCodeClick):
         def trigger(self, sender, canvasevent, data):
             onGenerateCodeClick()
 
-    plt.title('CNC Code Generator')
     tm = fig.canvas.manager.toolmanager
     tm.add_tool("Generate Code", GenerateCodeToolbarButton)
     fig.canvas.manager.toolbar.add_tool(
