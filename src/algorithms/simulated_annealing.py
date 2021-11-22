@@ -1,40 +1,31 @@
 import math
 import random
-import matplotlib.pyplot as plt
 import utils
 
+
+class SimulatedAnnealingConfig:
+    def __init__(self, temp: int, stoppingTemp: float, alpha: float, stoppingIter: float) -> None:
+        self.temp = temp
+        self.stoppingTemp = stoppingTemp
+        self.alpha = alpha
+        self.stoppingIter = stoppingIter
+
+
 class SimulatedAnnealing:
-    def __init__(self, coords, temp, alpha, stopping_temp, stopping_iter):
-        ''' animate the solution over time
-
-            Parameters
-            ----------
-            coords: array_like
-                list of coordinates
-            temp: float
-                initial temperature
-            alpha: float
-                rate at which temp decreases
-            stopping_temp: float
-                temerature at which annealing process terminates
-            stopping_iter: int
-                interation at which annealing process terminates
-
-        '''
-
+    def __init__(self, coords, config: SimulatedAnnealingConfig):
         self.coords = coords
         self.sample_size = len(coords)
-        self.temp = temp
-        self.alpha = alpha
-        self.stopping_temp = stopping_temp
-        self.stopping_iter = stopping_iter
+        self.temp = config.temp
+        self.alpha = config.alpha
+        self.stopping_temp = config.stoppingTemp
+        self.stopping_iter = config.stoppingIter
         self.iteration = 1
 
         self.dist_matrix = utils.vectorToDistMatrix(coords)
         self.curr_solution = utils.nearestNeighbourSolution(self.dist_matrix)
         self.best_solution = self.curr_solution
 
-        self.solution_history = [self.curr_solution]
+        self.solutionHistory = [self.curr_solution]
 
         self.curr_weight = self.weight(self.curr_solution)
         self.initial_weight = self.curr_weight
@@ -45,9 +36,6 @@ class SimulatedAnnealing:
         print('Intial weight: ', self.curr_weight)
 
     def weight(self, sol):
-        '''
-        Calcuate weight
-        '''
         return sum([self.dist_matrix[i, j] for i, j in zip(sol, sol[1:] + [sol[0]])])
 
     def acceptance_probability(self, candidate_weight):
@@ -92,10 +80,10 @@ class SimulatedAnnealing:
             self.temp *= self.alpha
             self.iteration += 1
             self.weight_list.append(self.curr_weight)
-            self.solution_history.append(self.curr_solution)
+            self.solutionHistory.append(self.curr_solution)
 
         print('Minimum weight: ', self.min_weight)
         print('Improvement: ',
               round((self.initial_weight - self.min_weight) / (self.initial_weight), 4) * 100, '%')
-        
-        return [self.coords, self.solution_history]
+
+        return [self.coords, self.solutionHistory]

@@ -1,9 +1,23 @@
 ## CNC Code Generator
 
 ### Installing Dependencies
-1. Install Python@3.x
-2. Run the setup.bat file from the workspace
+1. Make sure Python@3.x is installed
+2. Run the following code in the terminal
+    ```sh
+    pip install matplotlib jaraco.clipboard
+    ```
 
 ### Instructions to run the application
-1. Open terminal in the project workspace
-2. Run "python src/main.py"
+Run the following code in the terminal of the workspace folder
+```sh
+python src/main.py
+```
+
+### Contributors
+[Ayobami Odumuyiwa]()
+
+[Bishwa Acharya](https://github.com/bishwa221)
+
+[Daniel Uzoigwe](https://github.com/DanOU123)
+
+[Shashi Kumar Dhandapani](https://github.com/shashik5/cnc-code-generator)

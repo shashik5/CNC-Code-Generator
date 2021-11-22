@@ -1,0 +1,13 @@
+{
+    "simulatedAnnealing": {
+        "temp": 1000,
+        "stoppingTemp": 0.00000001,
+        "alpha": 0.9995,
+        "stoppingIter": 10000000
+    },
+    "workpieceSize": {
+        "height": 200,
+        "width": 200
+    },
+    "numberOfDrillPoints": 70
+}
