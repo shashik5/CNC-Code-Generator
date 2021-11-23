@@ -1,8 +1,11 @@
+from functools import reduce
+from numpy.lib.shape_base import column_stack
 from code_generators.position import Position
+from utils import findClosestPointToOrigin
 
 
-class DrillConfig:
-    def __init__(self, isInInches: bool, isPathIncremental: bool, safePosition: Position, isFeedInMinutes: bool, workpieceThickness: float, feedRate: float, spindleSpeed: int):
+class DrillingConfig:
+    def __init__(self, isInInches: bool, isPathIncremental: bool, safePosition: Position, isFeedInMinutes: bool, workpieceThickness: float, feedRate: float, spindleSpeed: int, drillingPoints: any, numberOfDrillingPoints: int):
         self.isInInches = isInInches
         self.isPathIncremental = isPathIncremental
         self.safePosition = Position(**safePosition)
@@ -10,12 +13,16 @@ class DrillConfig:
         self.workpieceThickness = workpieceThickness
         self.feedRate = feedRate
         self.spindleSpeed = spindleSpeed
+        self.numberOfDrillingPoints = numberOfDrillingPoints
+        xs = list(map(lambda p: p[0], drillingPoints))
+        ys = list(map(lambda p: p[1], drillingPoints))
+        self.drillingPoints = column_stack((xs, ys))
 
 
 class DrillingCNC:
-    def __init__(self, coords: list, path: list, config: DrillConfig):
+    def __init__(self, coords: list, path: list, config: DrillingConfig):
         self.coords = coords.copy()
-        self.path = path.copy()
+        self.path = self._setStartPointCloseToOrigin(coords, path)
         self.lineCount = 0
         self.config = config
 
@@ -63,7 +70,6 @@ class DrillingCNC:
         return '{} G01 Z{}\n'.format(self._getSequenceNumber(), cfg.safePosition.z)
 
     def _moveToPosition(self, x, y):
-        cfg = self.config
         return '{} G00 X{} Y{}\n'.format(self._getSequenceNumber(), x, y)
 
     def _endProgram(self):
@@ -73,3 +79,12 @@ class DrillingCNC:
         cfg = self.config
         [x, y] = self.coords[id]
         return Position(x, y, cfg.safePosition.z)
+
+    def _setStartPointCloseToOrigin(self, coords: list, path: list):
+        closestPointPathIdx = findClosestPointToOrigin(coords)
+        lastIdx = len(coords)
+        closestPointIdx = path.index(closestPointPathIdx)
+        newPath: list = []
+        for i in range(closestPointIdx, lastIdx+closestPointIdx):
+            newPath.append(path[i % lastIdx])
+        return newPath

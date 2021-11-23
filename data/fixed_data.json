@@ -1,0 +1,110 @@
+{
+    "drillingConfig": {
+        "isInInches": false,
+        "isPathIncremental": false,
+        "safePosition": {
+            "x": 0,
+            "y": -50,
+            "z": 15
+        },
+        "isFeedInMinutes": false,
+        "workpieceThickness": 10,
+        "feedRate": 0.05,
+        "spindleSpeed": 1000,
+        "drillingPoints": [
+            [
+                40,
+                80
+            ],
+            [
+                40,
+                120
+            ],
+            [
+                40,
+                40
+            ],
+            [
+                40,
+                160
+            ],
+            [
+                80,
+                160
+            ],
+            [
+                120,
+                160
+            ],
+            [
+                160,
+                160
+            ],
+            [
+                160,
+                140
+            ],
+            [
+                160,
+                120
+            ],
+            [
+                160,
+                80
+            ],
+            [
+                160,
+                40
+            ],
+            [
+                120,
+                40
+            ],
+            [
+                80,
+                40
+            ],
+            [
+                100,
+                130
+            ],
+            [
+                100,
+                70
+            ],
+            [
+                70,
+                100
+            ],
+            [
+                130,
+                100
+            ],
+            [
+                100,
+                115
+            ],
+            [
+                90,
+                95
+            ],
+            [
+                110,
+                95
+            ],
+            [
+                130,
+                130
+            ],
+            [
+                70,
+                70
+            ]
+        ],
+        "numberOfDrillingPoints": 20
+    },
+    "workpieceSize": {
+        "height": 200,
+        "width": 200
+    }
+}

@@ -1,5 +1,5 @@
 {
-    "drillConfig": {
+    "drillingConfig": {
         "isInInches": false,
         "isPathIncremental": false,
         "safePosition": {
@@ -10,6 +10,12 @@
         "isFeedInMinutes": false,
         "workpieceThickness": 10,
         "feedRate": 0.05,
-        "spindleSpeed": 1000
+        "spindleSpeed": 1000,
+        "drillingPoints": [],
+        "numberOfDrillingPoints": 20
+    },
+    "workpieceSize": {
+        "height": 200,
+        "width": 200
     }
 }

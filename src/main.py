@@ -10,23 +10,25 @@ import json
 
 
 def main():
-    with open('data/data.json', 'r') as jsonfile:
+    with open('data/fixed_data.json', 'r') as jsonfile:
+    # with open('data/random_data.json', 'r') as jsonfile:
         data = DataConfig(**json.load(jsonfile))
 
     with open('src/config.json', 'r') as jsonfile:
         appConfig = AppConfig(**json.load(jsonfile))
 
     saConfig = appConfig.simulatedAnnealing
-    workpieceSize = appConfig.workpieceSize
+    drillingConfig = data.drillingConfig
+    workpieceSize = data.workpieceSize
 
-    nodes = DataGenerator(workpieceSize.width, workpieceSize.height,
-                          appConfig.numberOfDrillPoints).generate()
+    nodes = drillingConfig.drillingPoints if (len(drillingConfig.drillingPoints) > 0) else DataGenerator(workpieceSize.width, workpieceSize.height,
+                                                                                             drillingConfig.numberOfDrillingPoints).generate()
 
     sa = SimulatedAnnealing(nodes, saConfig)
     [coords, solutionHistory] = sa.anneal()
 
     def generateCode():
-        cg = DrillingCNC(coords, solutionHistory[-1], data.drillConfig)
+        cg = DrillingCNC(coords, solutionHistory[-1], drillingConfig)
         code = cg.generateCode()
         window = tk.Tk()
         window.title('CNC Code')

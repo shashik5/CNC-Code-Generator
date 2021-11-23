@@ -1,6 +1,5 @@
 import random
 import numpy as np
-import tkinter as tk
 from jaraco import clipboard
 
 
@@ -33,3 +32,16 @@ def nearestNeighbourSolution(dist_matrix):
 
 def copyToClipboard(text: str):
     clipboard.copy(text)
+
+
+def findClosestPointToOrigin(coords: list):
+    idx = 0
+    closestCoordSum = np.Infinity
+
+    for i in range(len(coords) - 1):
+        s = sum(coords[i])
+        if s < closestCoordSum:
+            idx = i
+            closestCoordSum = s
+
+    return idx
