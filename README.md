@@ -13,7 +13,7 @@ Run the following code in the terminal of the workspace folder
 python src/main.py
 ```
 
-### Contributors
+### Collaborators
 [Ayobami Odumuyiwa](https://github.com/ayblaze)
 
 [Bishwa Acharya](https://github.com/bishwa221)
