@@ -14,7 +14,7 @@ python src/main.py
 ```
 
 ### Contributors
-[Ayobami Odumuyiwa]()
+[Ayobami Odumuyiwa](https://github.com/ayblaze)
 
 [Bishwa Acharya](https://github.com/bishwa221)
 
